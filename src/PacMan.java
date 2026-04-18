@@ -127,6 +127,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
         setPreferredSize(new Dimension(boardWidth, boardHeight));
         setBackground(Color.BLACK);
         addKeyListener(this);
+        setDoubleBuffered(true);
         setFocusable(true);
         // setOpaque(true);
 
@@ -147,13 +148,14 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
             char newDirection = directions[random.nextInt(4)];
             ghost.updateDirection(newDirection);
         }
-        gameLoop = new Timer(50, this); // 20fps
+        gameLoop = new Timer(16, this); // 60fps
         gameLoop.start();
         /*
          * System.out.println(walls.size());
          * System.out.println(foods.size());
          * System.out.println(ghosts.size());
          */
+
     }
 
     public void loadMap() {
