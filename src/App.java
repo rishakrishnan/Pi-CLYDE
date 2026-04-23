@@ -9,7 +9,7 @@ public class App {
         // width - 19c x 32 ; height - 21r x 32
         int rowCount = 21;
         int columnCount = 19;
-        int tileSize = 32;
+        int tileSize = 42;
         int boardWidth = columnCount * tileSize;
         int boardHeight = rowCount * tileSize;
 
