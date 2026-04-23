@@ -16,8 +16,10 @@ public class App {
         // create window
         JFrame frame = new JFrame("Pac Man");
         // frame.setVisible(true);
-        frame.setSize(boardWidth, boardHeight);
+        // frame.setSize(boardWidth, boardHeight);
+        frame.setUndecorated(true);
         frame.setLocationRelativeTo(null);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         // want to make sure user cannot change the size of the window
         frame.setResizable(false);
         // game must terminate when player clicks "X" button on window
