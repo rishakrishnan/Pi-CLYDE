@@ -349,28 +349,35 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
 
     public void startJoystickThread() {
         Thread joystickThread = new Thread(() -> {
-            try (java.io.BufferedReader reader = new java.io.BufferedReader(
-                    new java.io.FileReader("/dev/ttyACM0"))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    line = line.trim();
-                    System.out.println("Joystick read: " + line);
-                    if (line.equals("UP")) {
-                        pacman.updateDirection('U');
-                        pacman.image = pacmanUpImage;
-                    } else if (line.equals("DOWN")) {
-                        pacman.updateDirection('D');
-                        pacman.image = pacmanDownImage;
-                    } else if (line.equals("LEFT")) {
-                        pacman.updateDirection('L');
-                        pacman.image = pacmanLeftImage;
-                    } else if (line.equals("RIGHT")) {
-                        pacman.updateDirection('R');
-                        pacman.image = pacmanRightImage;
+            while (true) {
+                try {
+                    java.io.BufferedReader reader = new java.io.BufferedReader(
+                            new java.io.FileReader("/dev/ttyACM0"));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        line = line.trim();
+                        System.out.println("Java received: " + line);
+                        if (line.equals("UP")) {
+                            pacman.updateDirection('U');
+                            pacman.image = pacmanUpImage;
+                        } else if (line.equals("DOWN")) {
+                            pacman.updateDirection('D');
+                            pacman.image = pacmanDownImage;
+                        } else if (line.equals("LEFT")) {
+                            pacman.updateDirection('L');
+                            pacman.image = pacmanLeftImage;
+                        } else if (line.equals("RIGHT")) {
+                            pacman.updateDirection('R');
+                            pacman.image = pacmanRightImage;
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("Reconnecting joystick...");
+                    try {
+                        Thread.sleep(500);
+                    } catch (Exception ex) {
                     }
                 }
-            } catch (Exception e) {
-                System.out.println("Joystick error: " + e.getMessage());
             }
         });
         joystickThread.setDaemon(true);
