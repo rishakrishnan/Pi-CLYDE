@@ -67,8 +67,8 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
         }
     }
 
-    private int rowCount = 19;
-    private int columnCount = 21;
+    private int rowCount = 21;
+    private int columnCount = 19;
     private int tileSize = 52;
     private int boardWidth = columnCount * tileSize;
     private int boardHeight = rowCount * tileSize;
