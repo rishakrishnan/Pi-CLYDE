@@ -354,6 +354,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     line = line.trim();
+                    System.out.println("Joystick read: " + line);
                     if (line.equals("UP")) {
                         pacman.updateDirection('U');
                         pacman.image = pacmanUpImage;
