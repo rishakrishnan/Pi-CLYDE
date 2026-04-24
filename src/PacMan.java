@@ -3,6 +3,7 @@ import java.awt.event.*;
 import java.util.HashSet;
 import java.util.Random;
 import javax.swing.*;
+import java.io.*;
 
 public class PacMan extends JPanel implements ActionListener, KeyListener {
     class Block {
@@ -155,7 +156,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
          * System.out.println(foods.size());
          * System.out.println(ghosts.size());
          */
-
+        startJoystickThread();
     }
 
     public void loadMap() {
@@ -344,6 +345,35 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+    }
+
+    public void startJoystickThread() {
+        Thread joystickThread = new Thread(() -> {
+            try (java.io.BufferedReader reader = new java.io.BufferedReader(
+                    new java.io.FileReader("/dev/ttyACM0"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    line = line.trim();
+                    if (line.equals("UP")) {
+                        pacman.updateDirection('U');
+                        pacman.image = pacmanUpImage;
+                    } else if (line.equals("DOWN")) {
+                        pacman.updateDirection('D');
+                        pacman.image = pacmanDownImage;
+                    } else if (line.equals("LEFT")) {
+                        pacman.updateDirection('L');
+                        pacman.image = pacmanLeftImage;
+                    } else if (line.equals("RIGHT")) {
+                        pacman.updateDirection('R');
+                        pacman.image = pacmanRightImage;
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Joystick error: " + e.getMessage());
+            }
+        });
+        joystickThread.setDaemon(true);
+        joystickThread.start();
     }
 
 }
